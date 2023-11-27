@@ -7,15 +7,40 @@
 
 import SwiftUI
 
-struct ContentView: View {
+@MainActor class User: ObservableObject {
+    @Published var name = "Username123"
+}
+
+struct EditView: View {
+    @EnvironmentObject var user: User
+    
+    var body: some View {
+        TextField("name", text: $user.name)
+    }
+}
+
+struct DisplayView: View {
+    @EnvironmentObject var user: User
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
+            Image(systemName: "person")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(user.name)
         }
         .padding()
+    }
+}
+
+struct ContentView: View {
+    @StateObject private var user = User()
+    var body: some View {
+        VStack{
+            EditView()
+            DisplayView()
+        }
+        .environmentObject(user)
     }
 }
 
