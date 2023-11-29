@@ -7,10 +7,22 @@
 
 import SwiftUI
 import UserNotifications
+import SamplePackage
 
 struct ContentView: View {
+    let possibleNumber = Array(1...60)
+    var results: String {
+        let selected = possibleNumber.random(7).sorted()
+        let strings = selected.map(String.init)
+        return strings.joined(separator: ", ")
+    }
+    
     var body: some View {
         VStack{
+            
+            Text(results)
+            
+            Spacer()
             Button("Request Permision") {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                     if success {
