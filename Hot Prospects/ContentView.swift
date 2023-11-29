@@ -6,45 +6,34 @@
 //
 
 import SwiftUI
-import UserNotifications
-import SamplePackage
 
 struct ContentView: View {
-    let possibleNumber = Array(1...60)
-    var results: String {
-        let selected = possibleNumber.random(7).sorted()
-        let strings = selected.map(String.init)
-        return strings.joined(separator: ", ")
-    }
-    
+
     var body: some View {
-        VStack{
+        ZStack{
+            LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
             
-            Text(results)
-            
-            Spacer()
-            Button("Request Permision") {
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                    if success {
-                        print ("all set")
-                    } else if let error = error {
-                        print(error.localizedDescription)
+            TabView {
+                ProspectsView(filter: .none)
+                    .tabItem {
+                        Label("Everyone", systemImage: "person.3")
                     }
-                }
-            }
-            .padding()
-            
-            Button("Schedule Notification") {
-                let content = UNMutableNotificationContent()
-                content.title = "feed the dogs"
-                content.subtitle = "they look hungry"
-                content.sound = UNNotificationSound.default
                 
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+                ProspectsView(filter: .contacted)
+                    .tabItem {
+                        Label("Contacted", systemImage: "checkmark.circle")
+                    }
                 
-                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                ProspectsView(filter: .uncontacted)
+                    .tabItem {
+                        Label("Uncontacted", systemImage: "questionmark.diamond")
+                    }
                 
-                UNUserNotificationCenter.current().add(request)
+                MeView()
+                    .tabItem {
+                        Label("Me", systemImage: "person.crop.square")
+                    }
             }
         }
     }
