@@ -11,6 +11,7 @@ struct ProspectsView: View {
     enum FilterType {
         case none, contacted, uncontacted
     }
+    @EnvironmentObject var prospects: Prospects
     
     let filter: FilterType
     
@@ -23,11 +24,26 @@ struct ProspectsView: View {
     }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            .navigationTitle(title)
+        NavigationStack {
+            Text("People: \(prospects.people.count)")
+                .navigationTitle(title)
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            let prospect = Prospect()
+                            prospect.name = "Paul Hudson"
+                            prospect.emailAddress = "paul@hackingwithswift.com"
+                            prospects.people.append(prospect)
+                        } label: {
+                            Label("Scan", systemImage: "qrcode.viewFinder")
+                        }
+                    }
+                }
+        }
     }
 }
 
 #Preview {
     ProspectsView(filter: .none)
+        .environmentObject(Prospects())
 }

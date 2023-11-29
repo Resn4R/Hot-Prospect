@@ -5,10 +5,11 @@
 //  Created by Vito Borghi on 26/11/2023.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-
+    @StateObject var prospects = Prospects()
     var body: some View {
         ZStack{
             LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom)
@@ -35,10 +36,12 @@ struct ContentView: View {
                         Label("Me", systemImage: "person.crop.square")
                     }
             }
+            .environmentObject(prospects)
         }
     }
 }
 
 #Preview {
     ContentView()
+        .modelContainer(for: Prospect.self)
 }
