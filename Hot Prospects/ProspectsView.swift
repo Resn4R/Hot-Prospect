@@ -35,7 +35,7 @@ struct ProspectsView: View {
                             prospect.emailAddress = "paul@hackingwithswift.com"
                             prospects.people.append(prospect)
                         } label: {
-                            Label("Scan", systemImage: "qrcode.viewFinder")
+                            Label("Scan", systemImage: "qrcode.viewfinder")
                         }
                     }
                 }
