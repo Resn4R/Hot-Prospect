@@ -14,7 +14,7 @@ class Prospect: Identifiable {
     var id = UUID()
     var name = "Anonymous"
     var emailAddress = ""
-    var isConnected = false
+    fileprivate(set) var isConnected = false
     
     init(id: UUID = UUID(), name: String = "Anonymous", emailAddress: String = "", isConnected: Bool = false) {
         self.id = id
@@ -29,6 +29,11 @@ class Prospect: Identifiable {
     
     init() {
         self.people = []
+    }
+    
+    func toggleContacted(_ prospect: Prospect) {
+        objectWillChange.send()
+        prospect.isConnected.toggle()
     }
     
 }
