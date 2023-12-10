@@ -4,6 +4,8 @@
 //
 //  Created by Vito Borghi on 29/11/2023.
 //
+
+import SwiftData
 import CodeScanner
 import SwiftUI
 
@@ -12,8 +14,8 @@ struct ProspectsView: View {
     enum FilterType {
         case none, contacted, uncontacted
     }
-    
-    @EnvironmentObject var prospects: Prospects
+    @Environment(\.modelContext) var modelContext
+    @Query var prospects: [Prospect]
     @State private var isShowingScanner = false
     
     let filter: FilterType
@@ -29,11 +31,11 @@ struct ProspectsView: View {
     var filteredProspects: [Prospect] {
         switch filter {
         case .none:
-            return prospects.people
+            return prospects
         case .contacted:
-            return prospects.people.filter{ $0.isConnected }
+            return prospects.filter{ $0.isConnected }
         case .uncontacted:
-            return prospects.people.filter{ !$0.isConnected }
+            return prospects.filter{ !$0.isConnected }
         }
     }
 
@@ -50,14 +52,14 @@ struct ProspectsView: View {
                     .swipeActions {
                         if prospect.isConnected {
                             Button {
-                                prospects.toggleContacted(prospect)
+                                prospect.toggleContacted()
                             } label: {
                                 Label("Mark Uncontacted", systemImage: "person.crop.circle.badge.xmark")
                             }
                             .tint(.blue)
                         } else {
                             Button {
-                                prospects.toggleContacted(prospect)
+                                prospect.toggleContacted()
                             } label: {
                                 Label("Mark Contacted", systemImage: "person.crop.circle.fill.badge.checkmark")
                             }
@@ -91,7 +93,7 @@ struct ProspectsView: View {
             let person = Prospect()
             person.name = details[0]
             person.emailAddress = details[1]
-            prospects.people.append(person)
+            modelContext.insert(person)
         case .failure(let error):
             print("Scanning Failed: \(error.localizedDescription)")
         }

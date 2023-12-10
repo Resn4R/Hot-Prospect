@@ -22,6 +22,10 @@ class Prospect: Identifiable {
         self.emailAddress = emailAddress
         self.isConnected = isConnected
     }
+    
+    func toggleContacted() {
+        self.isConnected.toggle()
+    }
 }
 
 @MainActor class Prospects: ObservableObject {

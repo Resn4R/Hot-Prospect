@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var prospects = Prospects()
+    @Query var prospects: [Prospect]
     var body: some View {
         ZStack{
             LinearGradient(colors: [.black], startPoint: .top, endPoint: .bottom)
@@ -36,7 +36,7 @@ struct ContentView: View {
                         Label("Me", systemImage: "person.crop.square")
                     }
             }
-            .environmentObject(prospects)
+            //.environmentObject(prospects)
         }
     }
 }
