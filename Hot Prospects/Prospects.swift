@@ -27,17 +27,3 @@ class Prospect: Identifiable {
         self.isConnected.toggle()
     }
 }
-
-@MainActor class Prospects: ObservableObject {
-    @Published var people: [Prospect]
-    
-    init() {
-        self.people = []
-    }
-    
-    func toggleContacted(_ prospect: Prospect) {
-        objectWillChange.send()
-        prospect.isConnected.toggle()
-    }
-    
-}

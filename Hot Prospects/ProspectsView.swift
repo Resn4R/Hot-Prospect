@@ -102,5 +102,5 @@ struct ProspectsView: View {
 
 #Preview {
     ProspectsView(filter: .none)
-        .environmentObject(Prospects())
+        .modelContainer(for: Prospect.self)
 }
