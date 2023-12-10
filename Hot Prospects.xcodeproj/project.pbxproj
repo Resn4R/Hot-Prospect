@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F27B04C2B260C1D0013406C /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 4F27B04B2B260C1D0013406C /* CodeScanner */; };
 		4F49CB3B2B17B6E500D13CAA /* SamplePackage in Frameworks */ = {isa = PBXBuildFile; productRef = 4F49CB3A2B17B6E500D13CAA /* SamplePackage */; };
 		4F49CB3D2B17BC5700D13CAA /* ProspectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F49CB3C2B17BC5700D13CAA /* ProspectsView.swift */; };
 		4F49CB3F2B17BC5F00D13CAA /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F49CB3E2B17BC5F00D13CAA /* MeView.swift */; };
@@ -33,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F27B04C2B260C1D0013406C /* CodeScanner in Frameworks */,
 				4F49CB3B2B17B6E500D13CAA /* SamplePackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +98,7 @@
 			name = "Hot Prospects";
 			packageProductDependencies = (
 				4F49CB3A2B17B6E500D13CAA /* SamplePackage */,
+				4F27B04B2B260C1D0013406C /* CodeScanner */,
 			);
 			productName = "Hot Prospects";
 			productReference = 4FB238C42B13B9920045B2DA /* Hot Prospects.app */;
@@ -127,6 +130,7 @@
 			mainGroup = 4FB238BB2B13B9920045B2DA;
 			packageReferences = (
 				4F49CB392B17B6E500D13CAA /* XCRemoteSwiftPackageReference "SamplePackage" */,
+				4F27B04A2B260C1D0013406C /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = 4FB238C52B13B9920045B2DA /* Products */;
 			projectDirPath = "";
@@ -295,6 +299,7 @@
 				DEVELOPMENT_TEAM = BQ55AJ4968;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need camera to add contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -324,6 +329,7 @@
 				DEVELOPMENT_TEAM = BQ55AJ4968;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need camera to add contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -366,6 +372,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4F27B04A2B260C1D0013406C /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.3;
+			};
+		};
 		4F49CB392B17B6E500D13CAA /* XCRemoteSwiftPackageReference "SamplePackage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/SamplePackage";
@@ -377,6 +391,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4F27B04B2B260C1D0013406C /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4F27B04A2B260C1D0013406C /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
 		4F49CB3A2B17B6E500D13CAA /* SamplePackage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4F49CB392B17B6E500D13CAA /* XCRemoteSwiftPackageReference "SamplePackage" */;
