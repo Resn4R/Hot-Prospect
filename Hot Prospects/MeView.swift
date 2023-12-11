@@ -4,16 +4,21 @@
 //
 //  Created by Vito Borghi on 29/11/2023.
 //
+
+import SwiftData
 import CoreImage
 import CoreImage.CIFilterBuiltins
 import SwiftUI
 
 struct MeView: View {
+    @Environment(\.modelContext) var modelContext
+    @Query var prospects: [Prospect]
+    
     @State private var name = "Anonymous"
     @State private var email = "you@yoursite.com"
     @State private var qrCode = UIImage()
     
-    let context = CIContext()
+    let imageContext = CIContext()
     let filter = CIFilter.qrCodeGenerator()
     
     var body: some View {
@@ -27,6 +32,12 @@ struct MeView: View {
                     TextField("Email Address", text: $email)
                         .textContentType(.emailAddress)
                         .font(.title)
+                    
+                    Button("Save"){
+                        saveCode()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
                 }
                 
                 Image(uiImage: qrCode)
@@ -44,20 +55,59 @@ struct MeView: View {
                     }
             }
             .navigationTitle("Your code")
-            .onAppear(perform: updateCode)
-            .onChange(of: name) { _,_ in updateCode() }
-            .onChange(of: email) { _,_ in updateCode() }
+            .onAppear(perform: loadCode)
+            //.onChange(of: name) { _,_ in updateCode() }
+            //.onChange(of: email) { _,_ in updateCode() }
         }
     }
-    func updateCode() {
+    func loadCode() {
         qrCode = generateQRCode(from: "\(name)\n\(email)")
+        //get prospect where .isSelf == true
+        let predicate = #Predicate<Prospect> { prospect in
+            prospect.isSelf == true
+        }
+        let  descriptor = FetchDescriptor(predicate: predicate)
+        let selfProspect = try? modelContext.fetch(descriptor)
+        //if it exists
+        if let selfProspect = selfProspect {
+            if !selfProspect.isEmpty {
+                //update name with self.name
+                name = selfProspect[0].name
+                //update email with email
+                email = selfProspect[0].emailAddress
+            }
+            else {
+                //create new prospect
+                let newSelf = Prospect(name: name, emailAddress: email, isSelf: true)
+                modelContext.insert(newSelf)
+            }
+        }
+    }
+    
+    func saveCode() {
+        //get prospect where .isSelf == true
+        let predicate = #Predicate<Prospect> { prospect in
+            prospect.isSelf == true
+        }
+        let  descriptor = FetchDescriptor(predicate: predicate)
+        let selfProspect = try? modelContext.fetch(descriptor)
+        //if it exists
+        if let selfProspect = selfProspect {
+            if !selfProspect.isEmpty {
+                //update name with self.name
+                selfProspect[0].name = name
+                //update email with email
+                selfProspect[0].emailAddress = email
+            }
+        }
+        
     }
     
     func generateQRCode(from string: String) -> UIImage {
         filter.message = Data(string.utf8)
         
         if let outputImage = filter.outputImage {
-            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent) {
+            if let cgImage = imageContext.createCGImage(outputImage, from: outputImage.extent) {
                 return UIImage(cgImage: cgImage)
 
             }
