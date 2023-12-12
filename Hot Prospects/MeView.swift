@@ -85,18 +85,12 @@ struct MeView: View {
     }
     
     func saveCode() {
-        //get prospect where .isSelf == true
-        let predicate = #Predicate<Prospect> { prospect in
-            prospect.isSelf == true
-        }
+        let predicate = #Predicate<Prospect> { prospect in prospect.isSelf == true }
         let  descriptor = FetchDescriptor(predicate: predicate)
         let selfProspect = try? modelContext.fetch(descriptor)
-        //if it exists
         if let selfProspect = selfProspect {
             if !selfProspect.isEmpty {
-                //update name with self.name
                 selfProspect[0].name = name
-                //update email with email
                 selfProspect[0].emailAddress = email
             }
         }
